@@ -76,7 +76,9 @@ public class drag : MonoBehaviour {
 
 	void OnMouseDown()
 	{
-		if (EventSystem.current.IsPointerOverGameObject ())
+        DragDummyObject.activeCollisions.Clear();
+
+        if (EventSystem.current.IsPointerOverGameObject ())
 			return;
 
 		DragDummyObject.currentDraggedObject = transform.gameObject;
@@ -111,7 +113,9 @@ public class drag : MonoBehaviour {
 		//rend.sha
 		rend.material.color = new Color (0.5f,0.8f,1.0f); //Color.blue; new Color(
 		UIScript.currentSelection = transform.gameObject;
-	}
+        UIScript.currentSelectionPosition = transform.position;
+        UIScript.showDelete = true;
+    }
 	  
 	void OnMouseUp()
 	{
@@ -139,8 +143,8 @@ public class drag : MonoBehaviour {
 //		oldMousePosY = Input.mousePosition.y;
 
 		checkRayCast ();
-
-	}
+        UIScript.currentSelectionPosition = transform.position;
+    }
 
     //RaycastHit currentHitPoint;
     protected virtual void checkRayCast ()
@@ -302,6 +306,7 @@ public class drag : MonoBehaviour {
     void OnDestroy()
     {
         DragDummyObject.activeCollisions.Remove(col);
+       
     }
 
 }

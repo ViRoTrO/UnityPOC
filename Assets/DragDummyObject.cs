@@ -42,7 +42,7 @@ public class DragDummyObject : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 
-       if (currentDraggedObject != other.transform.gameObject 
+       if (currentDraggedObject != other.transform.gameObject && !isParent(other.transform) && !isChild(other.transform)
             && other.tag != "floor")
         {
             activeCollisions.Add(other);
@@ -50,20 +50,16 @@ public class DragDummyObject : MonoBehaviour {
             currentCollidedTransform = other.transform;
            
         }
-       
-
-	}
+    }
 
 	void OnTriggerExit(Collider other)
 	{
-        print("Exit");
-
-        if (currentDraggedObject != other.transform.gameObject
+        activeCollisions.Remove(other);
+        if (currentDraggedObject != other.transform.gameObject && !isParent(other.transform) && !isChild(other.transform)
              && other.tag != "floor")
         {
-            activeCollisions.Remove(other);
-            isColliding = false;
-			rend.enabled = false;
+           isColliding = false;
+		   rend.enabled = false;
 		}
 	}
 
